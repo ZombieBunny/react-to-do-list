@@ -1,26 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { ListItem, TextField, Button, List } from '@material-ui/core';
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      item: '',
+      items: []
+    };
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  onChange = (event) => {
+    console.log(event.target.value);
+    this.setState({ item: event.target.value });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    const items = [...this.state.items, this.state.item];
+    console.log(items);
+
+    this.setState({
+      item: '',
+      items
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <form className="form" onSubmit={this.onSubmit}>
+          <TextField value={this.state.item} onChange={this.onChange}></TextField>
+          <Button onClick={this.onSubmit}>Submit</Button>
+        </form>
+
+        <List>
+          {
+            this.state.items.map((item, index) => <ListItem key={index}>{index + 1}. {item}</ListItem>)
+          }
+        </List>
+      </div>
+    );
+  }
 }
 
 export default App;
